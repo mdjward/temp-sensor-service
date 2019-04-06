@@ -1,8 +1,7 @@
 Feature:
-  As a River Pirate
+  As a human being who thrives in room temperatures of approximately 20 degrees celsius
   I want to be able to retrieve the current temperature and humidity readings
 
-  @wip
   Scenario: Retrieving the temperature
     Given that the temperature is as follows:
     | temp | humidity |
