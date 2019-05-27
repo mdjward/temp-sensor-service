@@ -1,4 +1,6 @@
-class MockSensor:
+from dht22_temp_sensor_service.sensor import AbstractSensor
+
+class MockSensor(AbstractSensor):
     _temp = 0.00
     _humidity = 0.00
 

@@ -13,8 +13,10 @@ setup(name='mdjward/dht22_temp_sensor_service',
     ],
     test_suite='tests',
     tests_require=[
+        'setuptools',
         'pytest',
         'coverage',
         'behave',
+        'unittest-data-provider',
     ],
     zip_safe=True)
