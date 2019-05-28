@@ -1,6 +1,5 @@
 from unittest import TestCase
-from Adafruit_DHT import platform_detect as detect
-from Adafruit_DHT import common as dev
+from Adafruit_DHT import platform_detect as platform
 from unittest_data_provider import data_provider
 from dht22_temp_sensor_service.device import *
 from typing import Callable
@@ -8,12 +7,12 @@ from typing import Callable
 class DeviceTest(TestCase):
 
     provideRaspberryPiExamples = lambda: (
-        [lambda: detect.RASPBERRY_PI, lambda: 1, lambda: 1],
-        [lambda: detect.RASPBERRY_PI, lambda: 1, lambda: 2],
-        [lambda: detect.RASPBERRY_PI, lambda: 1, lambda: 3],
-        [lambda: detect.RASPBERRY_PI, lambda: 1, lambda: 1],
-        [lambda: detect.RASPBERRY_PI, lambda: 2, lambda: 2],
-        [lambda: detect.RASPBERRY_PI, lambda: 2, lambda: 3],
+        [lambda: platform.RASPBERRY_PI, lambda: 1, lambda: 1],
+        [lambda: platform.RASPBERRY_PI, lambda: 1, lambda: 2],
+        [lambda: platform.RASPBERRY_PI, lambda: 1, lambda: 3],
+        [lambda: platform.RASPBERRY_PI, lambda: 1, lambda: 1],
+        [lambda: platform.RASPBERRY_PI, lambda: 2, lambda: 2],
+        [lambda: platform.RASPBERRY_PI, lambda: 2, lambda: 3],
     )
 
     @data_provider(provideRaspberryPiExamples)
@@ -27,21 +26,21 @@ class DeviceTest(TestCase):
         self.assertEqual(expected_version, device.getVersion())
     
     def test_it_will_accept_a_reported_beaglebone_black(self):
-        self.assertTrue(isinstance(Device.detect(platform_detector=lambda: detect.BEAGLEBONE_BLACK), BeagleboneBlackDevice))
+        self.assertTrue(isinstance(Device.detect(platform_detector=lambda: platform.BEAGLEBONE_BLACK), BeagleboneBlackDevice))
 
     def test_it_will_raise_an_undetectable_device_error(self):
-        self.assertRaises(UnknownDeviceException, Device.detect, platform_detector=lambda: detect.UNKNOWN)
+        self.assertRaises(UnknownDeviceException, Device.detect, platform_detector=lambda: platform.UNKNOWN)
 
 
 
 class DeviceFullIntegrationTest(TestCase):
 
     def test_it_will_detect_a_raspberry_pi(self):
-        if detect.platform_detect() != detect.RASPBERRY_PI:
+        if platform.platform_detect() != platform.RASPBERRY_PI:
             self.skipTest("Raspberry Pi detection can only be tested on a Raspberry Pi device");
 
-        expected_revision = detect.pi_revision()
-        expected_version = detect.pi_version()
+        expected_revision = platform.pi_revision()
+        expected_version = platform.pi_version()
 
         device = Device.detect()
         self.assertTrue(isinstance(device, RaspberryPiDevice))
@@ -49,13 +48,13 @@ class DeviceFullIntegrationTest(TestCase):
         self.assertEqual(expected_version, device.getVersion())
 
     def test_it_will_detect_a_beaglebone_black(self):
-        if detect.platform_detect() != detect.BEAGLEBONE_BLACK:
+        if platform.platform_detect() != platform.BEAGLEBONE_BLACK:
             self.skipTest("Beaglebone Black detection can only be tested on a Beaglebone Black device");
 
     def test_it_will_raise_an_exception_for_unknown(self):
-        if detect.platform_detect() == detect.RASPBERRY_PI:
+        if platform.platform_detect() == platform.RASPBERRY_PI:
             self.skipTest("Unknown device detection cannot be tested on a Raspberry Pi device");
-        if detect.platform_detect() == detect.BEAGLEBONE_BLACK:
+        if platform.platform_detect() == platform.BEAGLEBONE_BLACK:
             self.skipTest("Unknown device detection cannot be tested on a Beaglebone Black device");
 
         self.assertRaises(UnknownDeviceException, Device.detect)
@@ -68,7 +67,14 @@ class RaspberryPiDeviceTest(TestCase):
     invalidVersions = lambda: [ [-1], [0], [4]]
 
     def test_it_will_return_correct_platform_identifier(self):
-        self.assertEqual(dht.RASPBERRY_PI, RaspberryPiDevice(2, 3).getIdentifier())
+        self.assertEqual(platform.RASPBERRY_PI, RaspberryPiDevice(2, 3).getIdentifier())
+
+    def test_it_will_return_device_info(self):
+        deviceInfo = RaspberryPiDevice(2, 3).getDeviceInfo()
+
+        self.assertEqual("Raspberry Pi", deviceInfo["name"])
+        self.assertEqual(2, deviceInfo["revision"])
+        self.assertEqual(3, deviceInfo["version"])
 
     @data_provider(invalidRevisions)
     def test_it_will_raise_a_value_error_for_invalid_revision(self, revision):
@@ -85,4 +91,7 @@ class RaspberryPiDeviceTest(TestCase):
 class BeagleboneBlackDeviceTest(TestCase):
 
     def test_it_will_return_correct_platform_identifier(self):
-        self.assertEqual(dht.BEAGLEBONE_BLACK, BeagleboneBlackDevice().getIdentifier())
+        self.assertEqual(platform.BEAGLEBONE_BLACK, BeagleboneBlackDevice().getIdentifier())
+
+    def test_it_will_return_device_info(self):
+        self.assertEqual("Beaglebone Black", BeagleboneBlackDevice().getDeviceInfo()["name"])

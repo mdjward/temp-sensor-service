@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Adafruit_DHT import platform_detect as dht
+from Adafruit_DHT import platform_detect as platform
 from typing import Callable
 
 class Device(ABC):
@@ -9,16 +9,16 @@ class Device(ABC):
         pass
 
     def detect(
-        platform_detector:Callable[[], int]=dht.platform_detect,
-        revision_detector:Callable[[], int]=dht.pi_revision,
-        version_detector:Callable[[], int]=dht.pi_version
+        platform_detector:Callable[[], int]=platform.platform_detect,
+        revision_detector:Callable[[], int]=platform.pi_revision,
+        version_detector:Callable[[], int]=platform.pi_version
     ):
         result = platform_detector()
 
-        if result == dht.RASPBERRY_PI:
+        if result == platform.RASPBERRY_PI:
             return RaspberryPiDevice(revision_detector(), version_detector())
 
-        if result == dht.BEAGLEBONE_BLACK:
+        if result == platform.BEAGLEBONE_BLACK:
             return BeagleboneBlackDevice()
 
         raise(UnknownDeviceException("Could not detect host device"))
@@ -40,7 +40,7 @@ class RaspberryPiDevice(Device):
         self._version = version
 
     def getIdentifier(self):
-        return dht.RASPBERRY_PI
+        return platform.RASPBERRY_PI
 
     def getRevision(self):
         return self._revision
@@ -48,12 +48,22 @@ class RaspberryPiDevice(Device):
     def getVersion(self):
         return self._version
 
+    def getDeviceInfo(self):
+        return {
+            "name": "Raspberry Pi",
+            "revision": self._revision,
+            "version": self._version
+        }
+
 
 
 class BeagleboneBlackDevice(Device):
 
     def getIdentifier(self):
-        return dht.BEAGLEBONE_BLACK
+        return platform.BEAGLEBONE_BLACK
+
+    def getDeviceInfo(self):
+        return {"name": "Beaglebone Black"}
 
 
 
