@@ -1,4 +1,4 @@
-from dht22_temp_sensor_service.sensor import AbstractSensor
+from adafruit_temp_sensor_service.sensor import AbstractSensor
 
 class MockSensor(AbstractSensor):
     _temp = 0.00

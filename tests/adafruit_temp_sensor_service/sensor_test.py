@@ -1,7 +1,7 @@
 from Adafruit_DHT import common as Adafruit_DHT_common
 from Adafruit_DHT import platform_detect as platform
-from dht22_temp_sensor_service.sensor import *
-from dht22_temp_sensor_service.device import *
+from adafruit_temp_sensor_service.sensor import *
+from adafruit_temp_sensor_service.device import *
 from unittest import TestCase
 from unittest_data_provider import data_provider
 from types import ModuleType

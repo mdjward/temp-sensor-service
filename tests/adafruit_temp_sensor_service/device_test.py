@@ -1,7 +1,7 @@
 from unittest import TestCase
 from Adafruit_DHT import platform_detect as platform
 from unittest_data_provider import data_provider
-from dht22_temp_sensor_service.device import *
+from adafruit_temp_sensor_service.device import *
 from typing import Callable
 
 class DeviceTest(TestCase):
