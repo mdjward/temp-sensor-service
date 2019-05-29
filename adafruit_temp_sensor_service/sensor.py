@@ -53,11 +53,11 @@ class AdafruitSensor(AbstractSensor):
         self,
         device:Device,
         configuration:AdafruitSensorConfiguration,
-        resolver:Callable=None
+        reader:Callable=None
     ):
         self._device = device
         self._configuration = configuration
-        self._reader = resolver if resolver is not None else Adafruit_DHT_common.get_platform()
+        self._reader = reader if reader is not None else Adafruit_DHT_common.get_platform()
 
     def getReadings(self):
         (temp, humid) = self._reader(

@@ -6,7 +6,7 @@ Feature:
     Given that the temperature is as follows:
     | temp | humidity |
     | 24.1 | 33.9     |
-    When I create a new reading with the sensor
+    When I create a new reading with a DHT22 sensor on a Raspberry Pi 2 version 3 using GPIO pin 4
     Then the reading will be returned with the following values:
     | temperature | humidity |
     | 24.1        | 33.9     |

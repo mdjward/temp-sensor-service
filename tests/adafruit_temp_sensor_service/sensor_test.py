@@ -92,7 +92,7 @@ class AdafruitSensorFullIntegrationTest(TestCase):
             AdafruitSensorConfiguration.fromNameAndGpioPin('DHT22', 4)
         )
 
-        self.assertIsInstance(AdafruitSensor, sensor)
+        self.assertIsInstance(sensor, AdafruitSensor)
 
         actualReadings = sensor.getReadings()
 
