@@ -38,7 +38,7 @@ def when_i_create_a_new_reading_with_the_sensor(
     sensor = AdafruitSensor(
         deviceMap[device](revision, version),
         AdafruitSensorConfiguration.fromNameAndGpioPin(deviceTypeName, int(gpioPin)),
-        lambda deviceType, gpioPin: (MockData.temp, MockData.humidity)
+        lambda deviceType, gpioPin: (MockData.humidity, MockData.temp)
     )
     client = FlaskServiceFactory(sensor, 'test').createApp().test_client()
     context.lastResponse = client.post('/reading')

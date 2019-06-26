@@ -60,7 +60,7 @@ class AdafruitSensor(AbstractSensor):
         self._reader = reader if reader is not None else Adafruit_DHT_common.get_platform().read
 
     def getReadings(self):
-        (temp, humid) = self._reader(
+        (humid, temp) = self._reader(
             self._configuration.getDeviceType(),
             self._configuration.getGpioPin()
         )

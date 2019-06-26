@@ -13,7 +13,7 @@ class FlaskServiceTest(TestCase):
     def test_it_will_create_and_configure_an_app_with_a_mock_sensor(self):
         temp = 25.0
         humid = 30.0
-        reader = lambda deviceType, gpioPin: (temp, humid)
+        reader = lambda deviceType, gpioPin: (humid, temp)
 
         config = AdafruitSensorConfiguration.fromNameAndGpioPin('DHT22', 4)
         device = RaspberryPiDevice(2, 3)

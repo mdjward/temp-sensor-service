@@ -60,7 +60,7 @@ class DummyModule(dict):
 class AdafruitSensorTest(TestCase):
 
     def test_it_will_defer_to_injected_callable(self):
-        expectedReadings = (30, 40)
+        expectedReadings = (40, 30)
 
         sensor = AdafruitSensor(
             RaspberryPiDevice(2, 3),
@@ -70,8 +70,8 @@ class AdafruitSensorTest(TestCase):
 
         actualReadings = sensor.getReadings()
 
-        self.assertEqual(expectedReadings[0], actualReadings['temperature'])
-        self.assertEqual(expectedReadings[1], actualReadings['humidity'])
+        self.assertEqual(expectedReadings[1], actualReadings['temperature'])
+        self.assertEqual(expectedReadings[0], actualReadings['humidity'])
 
 
 
