@@ -96,5 +96,5 @@ class AdafruitSensorFullIntegrationTest(TestCase):
 
         actualReadings = sensor.getReadings()
 
-        self.assertGreaterEqual(0, actualReadings['temperature'])
-        self.assertGreaterEqual(0, actualReadings['humidity'])
+        self.assertGreaterEqual(actualReadings['temperature'], 0)
+        self.assertGreaterEqual(actualReadings['humidity'], 0)
