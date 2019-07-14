@@ -9,7 +9,7 @@ setup(name='mdjward/adafruit_temp_sensor_service',
     packages=['adafruit_temp_sensor_service'],
     install_requires=[
         'flask',
-        'Adafruit_DHT',
+        'Adafruit-DHT',
     ],
     test_suite='tests',
     tests_require=[
